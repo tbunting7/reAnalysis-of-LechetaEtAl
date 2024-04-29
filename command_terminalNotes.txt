@@ -1,0 +1,62 @@
+#general commands for navigating unix:
+
+man [command] = manual for a command
+
+ls = list (use 'ls -p' to see directories)touch
+pwd = print directory window
+cd = change directory
+mv (thing) [directory] = moves a thing into a directory
+cp (thing) [directory] = copies a thing into a directory
+
+nano = nano editor, lets you create scripts and save them
+
+chmod u+x [script] = allows you to run a script/executable, as normally they require permission
+
+grep {-v} "search" [file] | less = 'grab' a search of a file in text, with '| less' linking the command to spit out a text output
+--modifiers: 
+-v = exclude search rather than include
+-i = ignore case when searching
+-c = count lines with matching search, output of a number
+
+#regular expressions
+. = empty space, can be anything
+* = match zero or more of the preceeding character, i.e. "include any number of this thing in the search too" or a "wildcard"
+^ = line must start with following sequence
+$ = line must end with preceeding sequence
+
+tr 'A-Z' 'a-z' = transliterate (change case) of range of letters
+sed 's/something/somethingElse' = changes the way something prints out, turns something into somethingElse
+wc {-l} [file] = prints out 'num1 num2 num3' which correspond to the lines, words, and bytes in the file. use -l to show only line count
+
+Use ./ to indicate current directory and ../ to go back a directory
+
+
+
+#fastqc: 
+useful website: https://hbctraining.github.io/Intro-to-rnaseq-hpc-salmon-flipped/lessons/05_qc_running_fastqc_interactively.html
+
+# this line runs fastqc on every *.gz file in the directory, using 3 threads, and outputs it into the current directory
+$ fastqc -o ./ -t 3 ../../../dmel/speciesRNAseq/fastq/melanogaster_LechetaEtAl/*.gz
+
+#star indexing:
+#star command for mapping the latest melanogaster genome
+$ STAR --runMode genomeGenerate \	#dictates to run the genome indexing
+--runThreadN 4 \	#uses 4 threads
+--genomeDir /scratch/alpine/grra3428/dbipecGenome/STARdmelGenome \	#designates output directory
+--genomeFastaFiles /scratch/alpine/grra3428/dbipecGenome/GCF_018153845.1_ASM1815384v1_genomic.fna \	#designates directory where genome fasta file
+--sjdbGTFfile /scratch/alpine/grra3428/dbipecGenome/GCF_018153845.1_ASM1815384v1_genomic.gtf \  	#designates annotation gtf file
+--sjdbOverhang 99 \	#setting to indicate the length of reads, in this case all reads were 100bp in length, so used 99
+--genomeSAindexNbases 12	#something(?) but useful for drosophilid genomes
+
+
+#star mapping:
+#star command for running the Lecheta data. run it while in the tristanb/starMapped directory
+$ STAR --runThreadN 4	#uses 4 threads
+--genomeDir ../star	#uses indexed genome from the ../star directory
+--readFilesCommand zcat ../../../dmel/speciesRNAseq/fastq/melanogaster_LechetaEtAl/SRR11300812.fastq.gz	#reads zipped files using the zcat command while reading from the file location
+--outFileNamePrefix sample2/prefix	#puts a prefix on the output while depositing it into the directory "sample 2"
+--outSAMtype BAM Unsorted	#output file type
+--quantMode GeneCounts	#output file type
+--outFilterMultimapScoreRange 0
+--outFilterMultimapNmax 1
+
