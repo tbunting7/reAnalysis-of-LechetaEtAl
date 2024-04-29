@@ -15,6 +15,6 @@ Links I've found useful while learning:
 
 [STAR software manual](https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf)
 
-In the repository, there is a command_terminalNotes.txt file that has my notes while I was learning, as well as some commands used for FastQC analysis and STAR indexing and mapping.
+In the repository, there is a command_terminalNotes.txt file that has my notes while I was learning, as well as some commands (with explanations) used for FastQC analysis and STAR indexing and mapping.
 There is also a .r file which served as the beginning of differential expression analysis, though not much has been done with it at this point. 
 There are also the .html files from FastQC analysis.
